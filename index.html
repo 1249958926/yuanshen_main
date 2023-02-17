@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./js/howler.min.js"></script>
+  <script src="./js/jquery-3.6.3.min.js"></script>
+  <script src="./js/parallax.min.js"></script>
+</head>
+
+<body>
+  <div id="scene_centainer">
+    <div id="scene">
+      <div id="scene_main" data-depth="0.2">
+        <img id="bg_img" src="./img/bg.jpg">
+        <div id="desc">
+          <img src="./img/desc.png" alt="" srcset="">
+        </div>
+        <div id="jiantou">
+          <img src="./img/biaoji.png" alt="" srcset="">
+        </div>
+        <div id="shenzhiyan">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="music_btn">
+    <img src="./img/audio-off.png" class="bg btn_bg_off" alt="" srcset="">
+    <img src="./img/audio-on.png" class="bg btn_bg_on" alt="" srcset="">
+  </div>
+</body>
+<script>
+  $(function () {
+    let scene = $('#scene').get(0);
+    var parallaxInstance = new Parallax(scene, {
+      relativeInput: true, //指定是否使用场景的坐标系(默认false)
+      pointerEvents: true // 场景内元素启用交互
+    });
+    // 创建音乐
+    let deskBgm = new Howl({
+      src: ['./music/desk-bgm.mp3'],
+      autoplay: true,
+      loop: true,
+    });
+    // bgm 是否在播放
+    let deskBgmPlay = true
+    // 鼠标滑过神之眼bgm
+    let hoverBgm = new Howl({
+      src: ['./music/eye-mouseover.mp3']
+    })
+    // 点击音乐按钮
+    $('#music_btn').click(function () {
+      deskBgmPlay = !deskBgmPlay
+      deskBgmPlay ? deskBgm.play() : deskBgm.pause()
+      $('#music_btn').children().toggle()
+    })
+    $('#shenzhiyan').mouseenter(function () {
+      hoverBgm.play()
+    })
+  }) 
+</script>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    width: 100vw;
+    height: 100vh;
+    min-height: 920px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  #scene_centainer {
+    position: absolute;
+    width: 110%;
+    height: 110%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #scene {
+    width: 100%;
+    height: 100%;
+  }
+
+  #scene_main {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  #music_btn {
+    position: fixed;
+    top: 20px;
+    left: 100px;
+    z-index: 99;
+  }
+
+  #music_btn .bg {
+    width: 30px;
+    height: 30px;
+  }
+
+  #music_btn .btn_bg_off {
+    display: none;
+  }
+
+  #bg_img {
+    width: 100%;
+    height: 120%;
+  }
+
+  #desc {
+    position: absolute;
+    left: 35%;
+    top: 75%;
+  }
+
+  @keyframes keyframes-to-top {
+    from {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(-10px);
+    }
+  }
+
+  #jiantou {
+    position: absolute;
+    left: 52%;
+    top: 25%;
+    animation: keyframes-to-top .5s linear infinite alternate;
+  }
+
+  #shenzhiyan {
+    position: absolute;
+    left: 54%;
+    top: 53%;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    background-color: white;
+    opacity: 0.1;
+    animation: all 1s linear;
+    border-radius: 50%;
+  }
+
+  #shenzhiyan:hover {
+    opacity: 0.3;
+  }
+</style>
+
+</html>
